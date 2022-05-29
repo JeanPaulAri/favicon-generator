@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import "../Styles/Pixel-editor.scss"
+import { SliderPicker } from 'react-color';
 
 
 export default function PixelEditor(){
@@ -8,7 +9,7 @@ export default function PixelEditor(){
     const [hideOptions, setHideOptions] = useState(false);
     const [hideDrawingPanel, setHideDrawingPanel] = useState(true);
     const [buttonText, setButtonText] = useState("Render Canvas");
-    const [selectedColor, setColor] = useState("#000000");
+    const [color, setColor] = useState("#555");
 
     function initializeDrawingPanel(){
         setHideOptions(!hideOptions);
@@ -18,14 +19,20 @@ export default function PixelEditor(){
             ? setButtonText("Re-render")
             : setButtonText("Render Canvas");
     }
+    function changeColor(color){
+        setColor(color.hsl);
+    }
+
+
+
     return(
 
       <div id="PixelEditor">
           <h1>Favicon Editor</h1>
-          <h2>ver 1.0</h2>
+          {hideDrawingPanel && <h2>ver 1.0</h2>}
 
-          <h3>Canvas Size:</h3>
-          <div id="options">
+          {hideDrawingPanel &&<h3>Canvas Size:</h3>}
+          {hideDrawingPanel && <div id="options">
               <div className="option">
 
                   <input
@@ -50,8 +57,10 @@ export default function PixelEditor(){
                   <span>[ Height ]</span>
 
               </div>
-          </div>
+          </div>}
           <button className="button" onClick={initializeDrawingPanel}>{buttonText}</button>
+          <SliderPicker onChangeComplete={changeColor} color={color.hsl}/>
+
       </div>
 
     );
